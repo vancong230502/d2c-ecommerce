@@ -1,0 +1,24 @@
+ecommerce-nextjs/
+├── /app                    # Cấu trúc routing mới của Next.js (App Router)
+│   ├── /api               # API Routes
+│   │   ├── /auth          # Xử lý authentication
+│   │   ├── /products      # API cho sản phẩm
+│   │   └── /orders        # API cho đơn hàng
+│   ├── /cart              # Trang giỏ hàng
+│   │   └── page.tsx
+│   ├── /products          # Trang danh sách sản phẩm
+│   │   ├── /[slug]        # Dynamic route cho sản phẩm chi tiết
+│   │   │   └── page.tsx
+│   │   └── page.tsx
+│   ├── /checkout          # Trang thanh toán
+│   │   └── page.tsx
+│   ├── layout.tsx         # Layout chính
+│   ├── page.tsx           # Trang chủ
+│   └── globals.css        # CSS toàn cục
+├── /components            # Các component tái sử dụng
+│   ├── /ui               # UI components (button, card, modal, v.v.)
+│   │   ├── Button.tsx
+│   │   └── ProductCard.tsx
+│   ├── Header.tsx       ...
+
+Something went wrong, please try again.
