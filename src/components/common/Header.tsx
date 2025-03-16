@@ -85,7 +85,7 @@ export function Header() {
                     Đăng nhập
                   </Button>
                 </Link>
-                <Link href="/signup">
+                <Link href="/register">
                   <Button className="bg-black text-white hover:bg-gray-800 cursor-pointer">
                     Đăng ký
                   </Button>
@@ -112,6 +112,9 @@ export function Header() {
             </Link>
             <Link href="/forum" className="text-gray-700 hover:text-gray-900 cursor-pointer">
               Forum
+            </Link>
+            <Link href="/donate" className="text-gray-700 hover:text-gray-900 cursor-pointer">
+              Donate
             </Link>
             <Link href="/download" className="text-gray-700 hover:text-gray-900 cursor-pointer">
               Download
@@ -150,21 +153,12 @@ export function Header() {
                   Đăng nhập
                 </Button>
               </Link>
-              <Link href="/signup">
+              <Link href="/register">
                 <Button className="bg-black text-white hover:bg-gray-800 cursor-pointer">
                   Đăng ký
                 </Button>
               </Link>
             </div>
-          </div>
-        </div>
-        <div className="sm:hidden mt-4">
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-            <Input
-              placeholder="Tìm kiếm sản phẩm..."
-              className="pl-12 pr-4 py-2 rounded-full border-gray-300"
-            />
           </div>
         </div>
       </div>
@@ -185,6 +179,15 @@ export function Header() {
             <X className="w-6 h-6" />
           </button>
         </div>
+        <div className="p-4">
+          <div className="relative mb-4">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+            <Input
+              placeholder="Tìm kiếm sản phẩm..."
+              className="pl-12 pr-4 py-2 rounded-full border-gray-300 w-full"
+            />
+          </div>
+        </div>
         <nav className="p-4 space-y-2">
           <Link href="/shop" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
             Shop
@@ -192,13 +195,16 @@ export function Header() {
           <Link href="/forum" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
             Forum
           </Link>
+          <Link href="/donate" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
+            Donate
+          </Link>
           <Link href="/download" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
             Download
           </Link>
           <Link href="/login" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
             Đăng nhập
           </Link>
-          <Link href="/signup" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
+          <Link href="/register" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
             Đăng ký
           </Link>
         </nav>

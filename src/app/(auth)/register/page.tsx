@@ -1,59 +1,99 @@
-import { FcGoogle } from "react-icons/fc";
+"use client";
+
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
-import { AiOutlineArrowLeft } from "react-icons/ai"; // Import icon
-import Image from "next/image";
+import { Label } from "@/components/ui/label";
+import { Icons } from "@/components/icons";
 import Link from "next/link";
 
-export default function Register() {
+export default function RegisterPage() {
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen py-2 bg-gray-100 px-4">
-       {/* Nút quay về */}
-       <Link 
-        href="/" 
-        className="absolute top-4 left-4 flex items-center text-gray-600 hover:text-gray-900 transition"
-      >
-        <AiOutlineArrowLeft className="text-2xl" />
-        <span className="ml-2 text-sm">Trang chủ</span>
-      </Link>
-      <Card className="w-full max-w-md shadow-lg rounded-xl">
-        <CardContent className="p-6 space-y-2">
-          {/* Tiêu đề với ảnh đại diện */}
-          <div className="flex flex-col items-center space-y-2">
-                <Image 
-                    src="/avatar/girl.png" 
-                    alt="User Avatar" 
-                    width={50} 
-                    height={50} 
-                    className="rounded-full shadow-lg ring-1 ring-gray-300 object-cover"
-                />
-                <p className="text-gray-600 text-base p-1">Tạo tài khoản mới</p>
-            </div>
-
-
-          {/* Form đăng ký */}
-          <form className="space-y-6">
-            <Input type="text" placeholder="Họ và tên" className="cursor-text h-10" />
-            <Input type="email" placeholder="Email" className="cursor-text h-10" />
-            <Input type="password" placeholder="Mật khẩu" className="cursor-text h-10" />
-            <Input type="password" placeholder="Xác nhận mật khẩu" className="cursor-text h-10" />
-
-            <Button className="w-full h-10 text-base font-medium cursor-pointer transition hover:bg-gray-900 p-1">
-              Đăng ký
-            </Button>
-          </form>
-
-
-          {/* Chuyển qua đăng nhập */}
-          <div className="text-center text-xs p-4 text-gray-600">
-            Đã có tài khoản?{" "}
-            <Link href="/login" className="text-blue-600 hover:underline font-medium">
-              Đăng nhập ngay
-            </Link>
+    <Card className="w-full">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl text-center">Tạo tài khoản</CardTitle>
+        <CardDescription className="text-center">
+          Chọn phương thức đăng ký bên dưới
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        <div className="grid grid-cols-2 gap-6">
+          <Button variant="outline" className="cursor-pointer transition-colors">
+            <Icons.google className="mr-2 h-4 w-4" />
+            Google
+          </Button>
+          <Button variant="outline" className="cursor-pointer transition-colors">
+            <Icons.facebook className="mr-2 h-4 w-4" />
+            Facebook
+          </Button>
+        </div>
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
           </div>
-        </CardContent>
-      </Card>
-    </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Hoặc đăng ký với
+            </span>
+          </div>
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="name">Họ và tên</Label>
+          <Input 
+            id="name" 
+            type="text" 
+            placeholder="Nguyễn Văn A"
+            className="cursor-text"
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="email">Email</Label>
+          <Input 
+            id="email" 
+            type="email" 
+            placeholder="m@example.com"
+            autoComplete="email"
+            className="cursor-text"
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="password">Mật khẩu</Label>
+          <Input 
+            id="password" 
+            type="password"
+            autoComplete="new-password"
+            className="cursor-text"
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="confirm-password">Xác nhận mật khẩu</Label>
+          <Input 
+            id="confirm-password" 
+            type="password"
+            autoComplete="new-password"
+            className="cursor-text"
+          />
+        </div>
+      </CardContent>
+      <CardFooter className="flex flex-col gap-4">
+        <Button className="w-full cursor-pointer transition-colors">Đăng ký</Button>
+        <div className="text-center text-sm text-muted-foreground">
+          Đã có tài khoản?{" "}
+          <Link 
+            href="/login" 
+            className="underline underline-offset-4 hover:text-primary transition-colors cursor-pointer"
+          >
+            Đăng nhập
+          </Link>
+        </div>
+      </CardFooter>
+    </Card>
   );
 }
