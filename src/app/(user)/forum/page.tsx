@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, Fragment } from "react";
 import { Header } from "@/components/common/Header";
 import { Footer } from "@/components/common/Footer";
 import { Button } from "@/components/ui/button";
@@ -24,7 +24,12 @@ import {
   Bell,
   MessageSquare,
   User,
-  Trash2
+  Trash2,
+  Calendar,
+  Gift,
+  Trophy,
+  Star,
+  History
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -65,7 +70,7 @@ interface Post {
   likes: number;
   time: string;
   comments: Comment[];
-  category: 'system' | 'discussion' | 'following' | 'saved';
+  category: 'system' | 'discussion' | 'missions' | 'attendance';
 }
 
 // Dữ liệu mẫu
@@ -76,7 +81,7 @@ const posts: Post[] = [
       name: "Admin",
       avatar: "/avatars/admin.jpg",
     },
-    content: "🎉 Chào mừng bạn đến với diễn đàn của chúng tôi!",
+    content: "🎉 Chào mừng bạn đến với diễn đàn của chúng tôi! \n\nHãy tham gia thảo luận và chia sẻ kinh nghiệm của bạn với cộng đồng MarketTrend nhé!",
     likes: 324,
     time: "2 giờ trước",
     comments: [],
@@ -118,7 +123,76 @@ const posts: Post[] = [
     ],
     category: 'discussion'
   },
-  // Thêm các bài viết khác...
+  {
+    id: 3,
+    user: {
+      name: "Admin",
+      avatar: "/avatars/admin.jpg",
+    },
+    content: "📢 Thông báo: Hệ thống sẽ bảo trì vào ngày 15/05/2024 từ 22:00 - 24:00. Mong quý khách thông cảm!",
+    likes: 89,
+    time: "3 giờ trước",
+    comments: [],
+    category: 'system'
+  },
+  {
+    id: 4,
+    user: {
+      name: "Thanh Hà",
+      avatar: "/avatars/user3.jpg",
+    },
+    content: "Mọi người cho mình hỏi về cách sử dụng công cụ phân tích kỹ thuật trên MarketTrend với ạ?",
+    likes: 45,
+    time: "4 giờ trước",
+    comments: [
+      {
+        id: 3,
+        user: {
+          name: "Hoàng Minh",
+          avatar: "/avatars/user4.jpg",
+        },
+        content: "Bạn có thể xem hướng dẫn chi tiết tại mục Học tập nhé!",
+        likes: 8,
+        time: "3 giờ trước",
+      }
+    ],
+    category: 'discussion'
+  },
+  {
+    id: 5,
+    user: {
+      name: "Admin",
+      avatar: "/avatars/admin.jpg",
+    },
+    content: "🎯 Nhiệm vụ tuần mới đã được cập nhật! Hoàn thành nhiệm vụ để nhận thưởng hấp dẫn.",
+    likes: 156,
+    time: "5 giờ trước",
+    comments: [],
+    category: 'system'
+  },
+  {
+    id: 6,
+    user: {
+      name: "Thu Loan",
+      avatar: "/avatars/user5.jpg",
+    },
+    content: "Chia sẻ kinh nghiệm đầu tư của mình trong tháng vừa qua:\n\n1. Luôn đặt quản lý rủi ro lên hàng đầu\n2. Nghiên cứu kỹ trước khi đầu tư\n3. Không FOMO theo đám đông\n\nMong kinh nghiệm này giúp ích cho các bạn! 📈",
+    likes: 278,
+    time: "6 giờ trước",
+    comments: [
+      {
+        id: 4,
+        user: {
+          name: "Minh Trí",
+          avatar: "/avatars/user1.jpg",
+        },
+        content: "Cảm ơn bạn đã chia sẻ kinh nghiệm quý báu!",
+        likes: 15,
+        time: "5 giờ trước",
+      }
+    ],
+    category: 'discussion'
+  }
 ];
 
 function CommentComponent({ comment, level = 0 }: { comment: Comment; level?: number }) {
@@ -128,7 +202,7 @@ function CommentComponent({ comment, level = 0 }: { comment: Comment; level?: nu
   return (
     <div className={`space-y-4 ${level > 0 ? 'ml-8 md:ml-12 border-l pl-4' : ''}`}>
       <div className="flex gap-3">
-        <Avatar className="h-8 w-8 border-2 border-gray-200">
+        <Avatar className="h-8 w-8 border-2 border-gray-200 cursor-pointer hover:ring-2 hover:ring-gray-200 transition-all">
           <AvatarImage src={comment.user.avatar} />
           <AvatarFallback>{comment.user.name[0]}</AvatarFallback>
         </Avatar>
@@ -250,7 +324,7 @@ function CreatePostCard() {
             placeholder="Bạn đang nghĩ gì?"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="min-h-[100px] resize-none text-base"
+            className="min-h-[100px] resize-none text-lg"
             maxLength={500}
           />
           <div className="absolute bottom-2 right-2 text-xs text-gray-500">
@@ -261,12 +335,20 @@ function CreatePostCard() {
         {/* Image Preview */}
         {imagePreview && (
           <div className="relative rounded-lg overflow-hidden bg-gray-100 border">
-            <div className="aspect-[16/9] relative">
+            <div className="aspect-video relative">
               <img 
                 src={imagePreview} 
                 alt="Preview" 
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain bg-gray-50"
               />
+              <Button
+                variant="destructive"
+                size="icon"
+                className="absolute top-2 right-2 h-8 w-8 rounded-full shadow-lg"
+                onClick={removeImage}
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
           </div>
         )}
@@ -287,30 +369,21 @@ function CreatePostCard() {
               ref={fileInputRef}
               onChange={handleImageSelect}
             />
-            <div className="relative group">
-              <Button
-                variant={selectedImage ? "destructive" : "outline"}
-                onClick={selectedImage ? removeImage : () => fileInputRef.current?.click()}
-                className="h-9 w-[100px] cursor-pointer transition-colors flex items-center justify-center"
-              >
-                {selectedImage ? (
-                  <>
-                    <Trash2 className="h-4 w-4" />
-                    Xóa ảnh
-                  </>
-                ) : (
-                  <>
-                    <ImageIcon className="h-4 w-4" />
-                    Thêm ảnh
-                  </>
-                )}
-              </Button>
-              {!selectedImage && (
+            {!selectedImage && (
+              <div className="relative group">
+                <Button
+                  variant="outline"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="h-9 w-[100px] cursor-pointer transition-colors flex items-center justify-center"
+                >
+                  <ImageIcon className="h-4 w-4" />
+                  Thêm ảnh
+                </Button>
                 <div className="absolute w-max bg-black text-white text-xs py-1 px-2 rounded -bottom-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 pointer-events-none whitespace-nowrap">
                   Tối đa 1 ảnh, ảnh từ 10KB đến 2MB
                 </div>
-              )}
-            </div>
+              </div>
+            )}
           </div>
           
           {/* Post Button */}
@@ -328,20 +401,40 @@ function CreatePostCard() {
 }
 
 export default function ForumPage() {
-  const [activeTab, setActiveTab] = useState<'system' | 'discussion' | 'following' | 'your-posts' | 'saved'>('discussion');
+  const [activeTab, setActiveTab] = useState<'system' | 'discussion' | 'missions' | 'attendance' | 'history'>('discussion');
   const [page, setPage] = useState(1);
   const postsPerPage = 5;
   const [commentContent, setCommentContent] = useState("");
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [attendanceStreak, setAttendanceStreak] = useState(0);
+  const [hasCheckedIn, setHasCheckedIn] = useState(false);
 
   const filteredPosts = posts.filter(post => {
-    if (activeTab === 'your-posts') {
-      return post.user.name === "Minh Trí"; // Giả sử đây là user hiện tại
-    }
     return post.category === activeTab;
   });
 
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
   const currentPosts = filteredPosts.slice((page - 1) * postsPerPage, page * postsPerPage);
+
+  // Tạo mảng ngày trong tháng
+  const getDaysInMonth = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    return Array.from({ length: daysInMonth }, (_, i) => i + 1);
+  };
+
+  // Lấy tên tháng tiếng Việt
+  const getVietnameseMonth = (date: Date) => {
+    return `Tháng ${date.getMonth() + 1}`;
+  };
+
+  // Xử lý điểm danh
+  const handleCheckIn = () => {
+    setHasCheckedIn(true);
+    setAttendanceStreak(prev => prev + 1);
+    // Thêm logic lưu trữ điểm danh vào database ở đây
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -353,13 +446,13 @@ export default function ForumPage() {
         <div className="flex items-center justify-between px-4 h-12">
           <Button
             variant={activeTab === 'system' ? 'secondary' : 'ghost'}
-            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center"
+            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center cursor-pointer"
             onClick={() => {
               setActiveTab('system');
-              toast("Tin hệ thống", {
+              toast("Bản tin", {
                 description: "Xem các thông báo từ hệ thống",
                 position: "bottom-center",
-                duration: 4000,
+                duration: 2000,
               });
             }}
           >
@@ -367,7 +460,7 @@ export default function ForumPage() {
           </Button>
           <Button
             variant={activeTab === 'discussion' ? 'secondary' : 'ghost'}
-            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center"
+            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center cursor-pointer"
             onClick={() => {
               setActiveTab('discussion');
               toast("Thảo luận", {
@@ -380,46 +473,46 @@ export default function ForumPage() {
             <MessageSquare className="h-5 w-5" />
           </Button>
           <Button
-            variant={activeTab === 'your-posts' ? 'secondary' : 'ghost'}
-            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center"
+            variant={activeTab === 'missions' ? 'secondary' : 'ghost'}
+            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center cursor-pointer"
             onClick={() => {
-              setActiveTab('your-posts');
-              toast("Bài viết của bạn", {
-                description: "Xem các bài viết bạn đã đăng",
+              setActiveTab('missions');
+              toast("Nhiệm vụ", {
+                description: "Xem và nhận nhiệm vụ hàng ngày",
                 position: "bottom-center",
                 duration: 2000,
               });
             }}
           >
-            <User className="h-5 w-5" />
+            <Trophy className="h-5 w-5" />
           </Button>
           <Button
-            variant={activeTab === 'following' ? 'secondary' : 'ghost'}
-            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center"
+            variant={activeTab === 'attendance' ? 'secondary' : 'ghost'}
+            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center cursor-pointer"
             onClick={() => {
-              setActiveTab('following');
-              toast("Đang theo dõi", {
-                description: "Xem các bài viết bạn đang theo dõi",
+              setActiveTab('attendance');
+              toast("Điểm danh", {
+                description: "Điểm danh hàng ngày nhận thưởng",
                 position: "bottom-center",
                 duration: 2000,
               });
             }}
           >
-            <Users className="h-5 w-5" />
+            <Calendar className="h-5 w-5" />
           </Button>
           <Button
-            variant={activeTab === 'saved' ? 'secondary' : 'ghost'}
-            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center"
+            variant={activeTab === 'history' ? 'secondary' : 'ghost'}
+            className="h-10 w-10 p-0 hover:bg-gray-200 flex items-center justify-center cursor-pointer"
             onClick={() => {
-              setActiveTab('saved');
-              toast("Bài viết đã lưu", {
-                description: "Xem các bài viết bạn đã lưu",
+              setActiveTab('history');
+              toast("Lịch sử", {
+                description: "Xem lịch sử hoạt động của bạn",
                 position: "bottom-center",
                 duration: 2000,
               });
             }}
           >
-            <Bookmark className="h-5 w-5" />
+            <History className="h-5 w-5" />
           </Button>
         </div>
       </div>
@@ -432,18 +525,18 @@ export default function ForumPage() {
             <nav className="space-y-2 sticky top-6">
               <Button
                 variant={activeTab === 'system' ? 'secondary' : 'ghost'}
-                className="w-full justify-start gap-3 font-medium cursor-pointer"
+                className="w-full justify-start gap-3 text-base font-medium cursor-pointer hover:bg-gray-200"
                 onClick={() => {
                   setActiveTab('system');
                   setPage(1);
                 }}
               >
                 <Bell className="h-5 w-5" />
-                Tin hệ thống
+                Bản tin
               </Button>
               <Button
                 variant={activeTab === 'discussion' ? 'secondary' : 'ghost'}
-                className="w-full justify-start gap-3 font-medium cursor-pointer"
+                className="w-full justify-start gap-3 text-base font-medium cursor-pointer hover:bg-gray-200"
                 onClick={() => {
                   setActiveTab('discussion');
                   setPage(1);
@@ -453,205 +546,548 @@ export default function ForumPage() {
                 Thảo luận
               </Button>
               <Button
-                variant={activeTab === 'your-posts' ? 'secondary' : 'ghost'}
-                className="w-full justify-start gap-3 font-medium cursor-pointer"
+                variant={activeTab === 'missions' ? 'secondary' : 'ghost'}
+                className="w-full justify-start gap-3 text-base font-medium cursor-pointer hover:bg-gray-200"
                 onClick={() => {
-                  setActiveTab('your-posts');
+                  setActiveTab('missions');
                   setPage(1);
                 }}
               >
-                <User className="h-5 w-5" />
-                Bài viết của bạn
+                <Trophy className="h-5 w-5" />
+                Nhiệm vụ
               </Button>
               <Button
-                variant={activeTab === 'following' ? 'secondary' : 'ghost'}
-                className="w-full justify-start gap-3 font-medium cursor-pointer"
+                variant={activeTab === 'attendance' ? 'secondary' : 'ghost'}
+                className="w-full justify-start gap-3 text-base font-medium cursor-pointer hover:bg-gray-200"
                 onClick={() => {
-                  setActiveTab('following');
+                  setActiveTab('attendance');
                   setPage(1);
                 }}
               >
-                <Users className="h-5 w-5" />
-                Đang theo dõi
+                <Calendar className="h-5 w-5" />
+                Điểm danh
               </Button>
               <Button
-                variant={activeTab === 'saved' ? 'secondary' : 'ghost'}
-                className="w-full justify-start gap-3 font-medium cursor-pointer"
+                variant={activeTab === 'history' ? 'secondary' : 'ghost'}
+                className="w-full justify-start gap-3 text-base font-medium cursor-pointer hover:bg-gray-200"
                 onClick={() => {
-                  setActiveTab('saved');
+                  setActiveTab('history');
                   setPage(1);
                 }}
               >
-                <Bookmark className="h-5 w-5" />
-                Bài viết đã lưu
+                <History className="h-5 w-5" />
+                Lịch sử
               </Button>
             </nav>
           </div>
 
           {/* Main column */}
           <div className="md:col-span-6 space-y-6">
-            {/* Create post card */}
-            <CreatePostCard />
-
-            {/* Posts list */}
-            <div className="space-y-6">
-              {currentPosts.map((post) => (
-                <Card key={post.id} className="p-4">
-                  {/* Post header */}
-                  <div className="flex items-start gap-3 mb-3">
-                    <Avatar className="h-9 w-9 border-2 border-gray-200">
-                      <AvatarImage src={post.user.avatar} />
-                      <AvatarFallback>{post.user.name[0]}</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-medium">{post.user.name}</h3>
-                      </div>
-                      <p className="text-sm text-gray-500">{post.time}</p>
-                    </div>
-                    <Button variant="outline" className="h-9 w-[100px] cursor-pointer">
-                      Theo dõi
-                    </Button>
+            {activeTab === 'attendance' ? (
+              <Card className="p-4 md:p-6">
+                <div className="space-y-6 md:space-y-8">
+                  <div className="text-center space-y-2">
+                    <h2 className="text-2xl md:text-3xl font-bold">Điểm danh hàng ngày</h2>
+                    <p className="text-sm md:text-base text-gray-600">Điểm danh mỗi ngày để nhận thưởng</p>
                   </div>
 
-                  {/* Post content */}
-                  <div className="space-y-3 mb-3">
-                    <p className="whitespace-pre-line">{post.content}</p>
-                    {post.image && (
-                      <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100">
-                        <img
-                          src={post.image}
-                          alt="Post image"
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Post actions and Comments container */}
-                  <div className="border-t">
-                    {/* Post actions */}
-                    <div className="py-2 flex items-center gap-2">
-                      <Button 
-                        variant="ghost" 
-                        className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
+                  {/* Calendar Grid */}
+                  <div className="space-y-4">
+                    <div className="flex flex-col md:flex-row items-center md:justify-between gap-2 md:gap-0">
+                      <h3 className="text-lg md:text-xl font-semibold select-none">{getVietnameseMonth(currentDate)} {currentDate.getFullYear()}</h3>
+                      <Button
+                        size="lg"
+                        className={`w-full md:w-auto py-6 px-8 text-lg transition-transform hover:scale-105 ${
+                          hasCheckedIn
+                            ? 'bg-gray-700 cursor-not-allowed'
+                            : 'bg-blue-600 hover:bg-blue-700 cursor-pointer'
+                        }`}
+                        onClick={handleCheckIn}
+                        disabled={hasCheckedIn}
                       >
-                        <ThumbsUp className="h-5 w-5" />
-                        <span>{post.likes}</span>
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
-                      >
-                        <MessageCircle className="h-5 w-5" />
-                        <span>{post.comments.length}</span>
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
-                      >
-                        <Share2 className="h-5 w-5" />
-                        <span>Chia sẻ</span>
-                      </Button>
-                      <Button 
-                        variant="ghost" 
-                        className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
-                      >
-                        <Bookmark className="h-5 w-5" />
-                        <span>Lưu</span>
+                        <Calendar className="w-6 h-6 mr-2" />
+                        {hasCheckedIn ? 'Đã điểm danh hôm nay' : 'Điểm danh ngay'}
                       </Button>
                     </div>
+                    
+                    <div className="grid grid-cols-7 gap-1 md:gap-2">
+                      {['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'].map((day) => (
+                        <div key={day} className="text-center text-xs md:text-sm font-medium text-gray-500 py-2 md:py-3">
+                          {day}
+                        </div>
+                      ))}
+                      
+                      {Array.from({ length: new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() }, (_, i) => (
+                        <div key={`empty-${i}`} className="h-10 md:h-14" />
+                      ))}
+                      
+                      {getDaysInMonth(currentDate).map((day) => {
+                        const isToday = day === currentDate.getDate();
+                        const isPast = day < currentDate.getDate();
+                        
+                        return (
+                          <div
+                            key={day}
+                            className={`h-10 md:h-14 flex items-center justify-center rounded-lg text-sm md:text-base relative ${
+                              isToday
+                                ? 'bg-blue-500 text-white font-bold'
+                                : isPast
+                                ? 'bg-gray-100'
+                                : 'bg-gray-50'
+                            }`}
+                          >
+                            {day}
+                            {isPast && <Star className="w-4 h-4 md:w-5 md:h-5 text-yellow-500 absolute -top-1 -right-1" />}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
 
-                    {/* Comments section */}
-                    <div className="pt-6 border-t space-y-4">
-                      {/* Comment input */}
-                      <div className="flex gap-2">
-                        <Avatar className="h-9 w-9 border-2 border-gray-200">
-                          <AvatarImage src="/avatars/default.jpg" />
-                          <AvatarFallback>U</AvatarFallback>
-                        </Avatar>
-                        <div className="flex-1">
-                          <div className="relative">
-                            <Textarea
-                              placeholder="Viết bình luận..."
-                              className="min-h-[100px] text-sm"
-                              maxLength={500}
-                              value={commentContent}
-                              onChange={(e) => setCommentContent(e.target.value)}
-                            />
-                            <div className="absolute bottom-2 right-2 text-xs text-gray-500">
-                              {commentContent.length}/500
+                  {/* Streak Display */}
+                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 md:p-6">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <Trophy className="w-8 h-8 md:w-10 md:h-10 text-yellow-500" />
+                        <div>
+                          <h3 className="text-lg md:text-xl font-semibold">Chuỗi điểm danh</h3>
+                          <p className="text-2xl md:text-3xl font-bold text-blue-600">{attendanceStreak} ngày</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Rewards Progress */}
+                  <div className="space-y-4 md:space-y-6">
+                    <h3 className="text-lg md:text-xl font-semibold flex items-center gap-2">
+                      <Gift className="w-5 h-5 md:w-6 md:h-6 text-pink-500" />
+                      Phần thưởng điểm danh
+                    </h3>
+                    <div className="grid gap-4 md:gap-6">
+                      <div className="bg-green-50 rounded-xl p-4 space-y-3">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-base md:text-lg font-semibold">3 ngày liên tiếp</span>
+                              <span className="text-base md:text-lg text-green-600 font-bold">+50 điểm</span>
                             </div>
+                            <div className="text-sm text-gray-600">{Math.min(attendanceStreak, 3)}/3 ngày</div>
                           </div>
-                          <div className="flex justify-end mt-2">
-                            <Button className="h-9 w-[100px] bg-black hover:bg-black/90 cursor-pointer">
-                              Đăng
-                            </Button>
-                          </div>
+                          <Button 
+                            size="lg"
+                            className={`w-full md:w-auto ${attendanceStreak >= 3 ? 'bg-green-600 hover:bg-green-700' : 'bg-gray-500'}`}
+                            disabled={attendanceStreak < 3}
+                          >
+                            <Gift className="w-5 h-5 mr-2" />
+                            Nhận thưởng
+                          </Button>
+                        </div>
+                        <div className="h-3 bg-green-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-green-500 transition-all duration-300"
+                            style={{ width: `${Math.min((attendanceStreak / 3) * 100, 100)}%` }}
+                          />
                         </div>
                       </div>
 
-                      {/* Comments list */}
-                      <div className="space-y-4">
-                        {post.comments.map((comment) => (
-                          <CommentComponent key={comment.id} comment={comment} />
-                        ))}
+                      <div className="bg-blue-50 rounded-xl p-4 space-y-3">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-base md:text-lg font-semibold">7 ngày liên tiếp</span>
+                              <span className="text-base md:text-lg text-blue-600 font-bold">+100 điểm</span>
+                            </div>
+                            <div className="text-sm text-gray-600">{Math.min(attendanceStreak, 7)}/7 ngày</div>
+                          </div>
+                          <Button 
+                            size="lg"
+                            className={`w-full md:w-auto ${attendanceStreak >= 7 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-500'}`}
+                            disabled={attendanceStreak < 7}
+                          >
+                            <Gift className="w-5 h-5 mr-2" />
+                            Nhận thưởng
+                          </Button>
+                        </div>
+                        <div className="h-3 bg-blue-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-blue-500 transition-all duration-300"
+                            style={{ width: `${Math.min((attendanceStreak / 7) * 100, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="bg-purple-50 rounded-xl p-4 space-y-3">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-base md:text-lg font-semibold">30 ngày liên tiếp</span>
+                              <span className="text-base md:text-lg text-purple-600 font-bold">+500 điểm</span>
+                            </div>
+                            <div className="text-sm text-gray-600">{Math.min(attendanceStreak, 30)}/30 ngày</div>
+                          </div>
+                          <Button 
+                            size="lg"
+                            className={`w-full md:w-auto ${attendanceStreak >= 30 ? 'bg-purple-600 hover:bg-purple-700' : 'bg-gray-500'}`}
+                            disabled={attendanceStreak < 30}
+                          >
+                            <Gift className="w-5 h-5 mr-2" />
+                            Nhận thưởng
+                          </Button>
+                        </div>
+                        <div className="h-3 bg-purple-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-purple-500 transition-all duration-300"
+                            style={{ width: `${Math.min((attendanceStreak / 30) * 100, 100)}%` }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </Card>
-              ))}
-            </div>
+                </div>
+              </Card>
+            ) : activeTab === 'history' ? (
+              <Card className="p-4 md:p-6">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl md:text-2xl font-bold">Lịch sử hoạt động</h2>
+                    <Tabs defaultValue="all" className="w-[200px]">
+                      <TabsList className="grid w-full grid-cols-2">
+                        <TabsTrigger value="all">Tất cả</TabsTrigger>
+                        <TabsTrigger value="points">Điểm</TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  </div>
 
-            {/* Pagination */}
-            {totalPages > 1 && (
-              <Pagination>
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious 
-                      href="#" 
-                      onClick={() => setPage(p => Math.max(1, p - 1))}
-                      className={page === 1 ? 'pointer-events-none opacity-50' : ''}
-                    />
-                  </PaginationItem>
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                    <PaginationItem key={p}>
-                      <PaginationLink
-                        href="#"
-                        onClick={() => setPage(p)}
-                        isActive={page === p}
-                      >
-                        {p}
-                      </PaginationLink>
-                    </PaginationItem>
+                  <div className="space-y-4">
+                    {/* Today */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-medium text-gray-500">Hôm nay</h3>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
+                          <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center">
+                            <Trophy className="h-4 w-4 text-green-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">Điểm danh thành công</p>
+                            <p className="text-xs text-gray-500">09:00</p>
+                          </div>
+                          <span className="text-sm font-medium text-green-600">+10 điểm</span>
+                        </div>
+                        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
+                          <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                            <MessageSquare className="h-4 w-4 text-blue-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">Đăng bài thảo luận</p>
+                            <p className="text-xs text-gray-500">10:30</p>
+                          </div>
+                          <span className="text-sm font-medium text-blue-600">+5 điểm</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Yesterday */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-medium text-gray-500">Hôm qua</h3>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
+                          <div className="h-8 w-8 rounded-full bg-purple-100 flex items-center justify-center">
+                            <Gift className="h-4 w-4 text-purple-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">Nhận thưởng điểm danh 3 ngày</p>
+                            <p className="text-xs text-gray-500">15:45</p>
+                          </div>
+                          <span className="text-sm font-medium text-purple-600">+50 điểm</span>
+                        </div>
+                        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
+                          <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center">
+                            <ThumbsUp className="h-4 w-4 text-blue-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">Bình luận được thích</p>
+                            <p className="text-xs text-gray-500">11:20</p>
+                          </div>
+                          <span className="text-sm font-medium text-blue-600">+2 điểm</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* This Week */}
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-medium text-gray-500">Tuần này</h3>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50">
+                          <div className="h-8 w-8 rounded-full bg-yellow-100 flex items-center justify-center">
+                            <Trophy className="h-4 w-4 text-yellow-600" />
+                          </div>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium">Hoàn thành nhiệm vụ tuần</p>
+                            <p className="text-xs text-gray-500">Thứ 2</p>
+                          </div>
+                          <span className="text-sm font-medium text-yellow-600">+100 điểm</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            ) : (
+              <>
+                {/* Create post card - only show in discussion tab */}
+                {activeTab === 'discussion' && <CreatePostCard />}
+
+                {/* Posts list */}
+                <div className="space-y-6">
+                  {currentPosts.map((post, index) => (
+                    <Fragment key={post.id}>
+                      <Card className="p-4">
+                        {/* Post header */}
+                        <div className="flex items-start gap-3 mb-3">
+                          <Avatar className="h-10 w-10 border-2 border-gray-200 cursor-pointer hover:ring-2 hover:ring-gray-200 transition-all">
+                            <AvatarImage src={post.user.avatar} />
+                            <AvatarFallback>{post.user.name[0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-lg font-medium hover:text-blue-600 cursor-pointer transition-colors">{post.user.name}</h3>
+                            </div>
+                            <p className="text-base text-gray-500">{post.time}</p>
+                          </div>
+                          <div className="h-9 w-9 flex items-center justify-center rounded-full bg-gray-100 text-sm font-medium select-none">
+                            #{(page - 1) * postsPerPage + index + 1}
+                          </div>
+                        </div>
+
+                        {/* Post content */}
+                        <div className="space-y-3 mb-3">
+                          <p className="text-lg whitespace-pre-line select-text">{post.content}</p>
+                          {post.image && (
+                            <div className="relative aspect-video rounded-lg overflow-hidden bg-gray-100 cursor-zoom-in hover:opacity-90 transition-opacity">
+                              <img
+                                src={post.image}
+                                alt="Post image"
+                                className="object-cover w-full h-full"
+                              />
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Post actions and Comments container */}
+                        <div className="border-t">
+                          {/* Post actions */}
+                          <div className="py-2 flex items-center gap-2">
+                            <Button 
+                              variant="ghost" 
+                              className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
+                            >
+                              <ThumbsUp className="h-5 w-5" />
+                              <span>{post.likes}</span>
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
+                            >
+                              <MessageCircle className="h-5 w-5" />
+                              <span>{post.comments.length}</span>
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
+                            >
+                              <Share2 className="h-5 w-5" />
+                              <span>Chia sẻ</span>
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              className="flex-1 gap-2 h-9 cursor-pointer hover:bg-transparent transition-transform hover:scale-110"
+                            >
+                              <Bookmark className="h-5 w-5" />
+                              <span>Lưu</span>
+                            </Button>
+                          </div>
+
+                          {/* Comments section */}
+                          <div className="pt-6 border-t space-y-4">
+                            {/* Comment input */}
+                            <div className="flex gap-2">
+                              <Avatar className="h-10 w-10 border-2 border-gray-200">
+                                <AvatarImage src="/avatars/default.jpg" />
+                                <AvatarFallback>U</AvatarFallback>
+                              </Avatar>
+                              <div className="flex-1">
+                                <div className="relative">
+                                  <Textarea
+                                    placeholder="Viết bình luận..."
+                                    className="min-h-[100px] text-base"
+                                    maxLength={500}
+                                    value={commentContent}
+                                    onChange={(e) => setCommentContent(e.target.value)}
+                                  />
+                                </div>
+                                <div className="flex justify-end mt-2">
+                                  <Button className="text-base h-10 px-6">
+                                    Đăng
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Comments list */}
+                            <div className="space-y-4">
+                              {post.comments.map((comment) => (
+                                <CommentComponent key={comment.id} comment={comment} />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
+
+                      {/* Advertisement Banner after every 2 posts */}
+                      {(index + 1) % 2 === 0 && (
+                        <Card className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 hover:shadow-md transition-shadow">
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-1">
+                              <p className="text-sm text-blue-600 font-medium select-none">Quảng cáo</p>
+                              <h4 className="text-lg font-semibold hover:text-blue-600 cursor-pointer transition-colors">Khám phá thêm về MarketTrend</h4>
+                              <p className="text-base text-gray-600">Tham gia ngay để nhận nhiều ưu đãi hấp dẫn</p>
+                            </div>
+                            <Button className="bg-blue-600 hover:bg-blue-700 cursor-pointer transition-transform hover:scale-105">
+                              Tìm hiểu thêm
+                            </Button>
+                          </div>
+                        </Card>
+                      )}
+                    </Fragment>
                   ))}
-                  <PaginationItem>
-                    <PaginationNext 
-                      href="#" 
-                      onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                      className={page === totalPages ? 'pointer-events-none opacity-50' : ''}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+                </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <Pagination>
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious 
+                          href="#" 
+                          onClick={() => setPage(p => Math.max(1, p - 1))}
+                          className={page === 1 ? 'pointer-events-none opacity-50' : ''}
+                        />
+                      </PaginationItem>
+                      {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                        <PaginationItem key={p}>
+                          <PaginationLink
+                            href="#"
+                            onClick={() => setPage(p)}
+                            isActive={page === p}
+                          >
+                            {p}
+                          </PaginationLink>
+                        </PaginationItem>
+                      ))}
+                      <PaginationItem>
+                        <PaginationNext 
+                          href="#" 
+                          onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                          className={page === totalPages ? 'pointer-events-none opacity-50' : ''}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                )}
+              </>
             )}
           </div>
 
           {/* Right sidebar */}
           <div className="hidden md:block md:col-span-3">
             <div className="sticky top-6">
-              <Card className="p-4">
-                <div className="space-y-2">
-                  <h3 className="font-semibold mb-2">Chủ đề hot</h3>
-                  <Button variant="ghost" className="w-full justify-start text-sm h-9 cursor-pointer">
-                    #ThoiTrangNam
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start text-sm h-9 cursor-pointer">
-                    #PhongCachHe
-                  </Button>
-                  <Button variant="ghost" className="w-full justify-start text-sm h-9 cursor-pointer">
-                    #SaleThang3
-                  </Button>
+              <Card className="p-4 md:p-6">
+                <div className="space-y-4">
+                  <h4 className="text-sm md:text-base font-semibold flex items-center gap-2">
+                    <Gift className="w-4 h-4 text-pink-500" />
+                    Top donate tháng
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-orange-50 to-orange-100 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="relative">
+                        <Avatar className="h-12 w-12 border-2 border-orange-400 ring-2 ring-orange-200 hover:scale-105 transition-transform">
+                          <AvatarImage src="/avatars/user1.jpg" />
+                          <AvatarFallback>MT</AvatarFallback>
+                        </Avatar>
+                        <div className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs font-bold shadow-lg select-none">
+                          1
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-base font-semibold hover:text-orange-600 transition-colors">Minh Trí</p>
+                        <p className="text-sm font-medium text-orange-700 select-none">2,500,000đ</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-purple-50 to-purple-100 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="relative">
+                        <Avatar className="h-11 w-11 border-2 border-purple-400 ring-2 ring-purple-200 hover:scale-105 transition-transform">
+                          <AvatarImage src="/avatars/user2.jpg" />
+                          <AvatarFallback>BN</AvatarFallback>
+                        </Avatar>
+                        <div className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-purple-500 flex items-center justify-center text-white text-xs font-bold shadow-lg select-none">
+                          2
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-base font-semibold hover:text-purple-600 transition-colors">Bảo Ngọc</p>
+                        <p className="text-sm font-medium text-purple-700 select-none">1,800,000đ</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-blue-50 to-blue-100 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="relative">
+                        <Avatar className="h-10 w-10 border-2 border-blue-400 ring-2 ring-blue-200 hover:scale-105 transition-transform">
+                          <AvatarImage src="/avatars/user3.jpg" />
+                          <AvatarFallback>TH</AvatarFallback>
+                        </Avatar>
+                        <div className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold shadow-lg select-none">
+                          3
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-base font-semibold hover:text-blue-600 transition-colors">Thanh Hà</p>
+                        <p className="text-sm font-medium text-blue-700 select-none">1,200,000đ</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-green-50 to-green-100 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="relative">
+                        <Avatar className="h-10 w-10 border-2 border-green-400 hover:scale-105 transition-transform">
+                          <AvatarImage src="/avatars/user4.jpg" />
+                          <AvatarFallback>HM</AvatarFallback>
+                        </Avatar>
+                        <div className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center text-white text-xs font-bold shadow-lg select-none">
+                          4
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-base font-semibold hover:text-green-600 transition-colors">Hoàng Minh</p>
+                        <p className="text-sm font-medium text-green-700 select-none">800,000đ</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-gray-50 to-gray-100 hover:shadow-md transition-shadow cursor-pointer">
+                      <div className="relative">
+                        <Avatar className="h-10 w-10 border-2 border-gray-400 hover:scale-105 transition-transform">
+                          <AvatarImage src="/avatars/user5.jpg" />
+                          <AvatarFallback>TL</AvatarFallback>
+                        </Avatar>
+                        <div className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-gray-500 flex items-center justify-center text-white text-xs font-bold shadow-lg select-none">
+                          5
+                        </div>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-base font-semibold hover:text-gray-600 transition-colors">Thu Loan</p>
+                        <p className="text-sm font-medium text-gray-700 select-none">500,000đ</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </Card>
             </div>

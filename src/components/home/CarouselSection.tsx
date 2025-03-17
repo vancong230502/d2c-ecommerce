@@ -87,15 +87,10 @@ export function CarouselSection() {
                   <CardContent className="relative group flex flex-col items-center justify-center p-0 sm:px-4 sm:p-4 h-[200px] sm:h-[300px] md:h-[400px] overflow-hidden">
                     {/* Container chứa viền & gradient */}
                     <div 
-                      className="absolute inset-0 w-full h-full flex items-center justify-center rounded-lg overflow-hidden border-1 border-gray cursor-grab active:cursor-grabbing"
-                      onTouchStart={handleStart}
-                      onTouchEnd={handleEnd}
-                      onMouseDown={handleStart}
-                      onMouseUp={handleEnd}
-                      onMouseLeave={handleEnd}
+                      className="absolute inset-0 w-full h-full flex items-center justify-center rounded-lg overflow-hidden border-1 border-gray"
                     >
                       {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/10 z-10" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-black/10 z-10" />
 
                       {/* Next.js Image component */}
                       <Image
@@ -120,6 +115,16 @@ export function CarouselSection() {
                         </p>
                       </div>
                     </div>
+
+                    {/* Full overlay for swipe events */}
+                    <div 
+                      className="absolute inset-0 w-full h-full z-30 cursor-grab active:cursor-grabbing"
+                      onTouchStart={handleStart}
+                      onTouchEnd={handleEnd}
+                      onMouseDown={handleStart}
+                      onMouseUp={handleEnd}
+                      onMouseLeave={handleEnd}
+                    />
                   </CardContent>
                 </Card>
               </div>

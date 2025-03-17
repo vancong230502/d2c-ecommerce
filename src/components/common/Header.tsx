@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import {
   ShoppingCart,
   Search,
@@ -8,9 +9,11 @@ import {
   Menu,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 
 export function Header() {
+  const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false); // Thêm state để kiểm tra mount
@@ -58,6 +61,19 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const navLinks = [
+    { href: "/shop", label: "Shop" },
+    { href: "/forum", label: "Forum" },
+    { href: "/donate", label: "Donate" },
+    { href: "/download", label: "Download" },
+  ];
+
+  const isActiveLink = (path: string) => {
+    return pathname === path;
+  };
+
+  const isHome = pathname === "/";
+
   // Nếu chưa mount, trả về null hoặc một phiên bản tĩnh để tránh lỗi hydration
   if (!isMounted) {
     return (
@@ -103,22 +119,39 @@ export function Header() {
       <div className="max-w-5xl mx-auto px-4 sm:px-4 py-3">
         {/* Main Header */}
         <div className="flex items-center justify-between gap-4">
-          <Link href="/" className="text-2xl font-bold text-gray-900 hover:text-gray-700 cursor-pointer">
-            MarketTrend
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-3 text-2xl font-bold cursor-pointer group">
+              <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-gray-200 shadow-sm hover:ring-gray-300 transition-all">
+                <Image
+                  src="/avatar/girl.png"
+                  alt="MarketTrend Logo"
+                  width={36}
+                  height={36}
+                  className="object-cover"
+                  priority
+                  placeholder="blur"
+                  blurDataURL="/avatar/girl-blur.png"
+                />
+              </div>
+              <span className={`text-gray-900 hover:text-gray-700 ${isHome ? "border-b-2 border-black" : ""}`}>
+                MarketTrend
+              </span>
+            </Link>
+          </div>
           <nav className="hidden sm:flex gap-4 ml-4">
-            <Link href="/shop" className="text-gray-700 hover:text-gray-900 cursor-pointer">
-              Shop
-            </Link>
-            <Link href="/forum" className="text-gray-700 hover:text-gray-900 cursor-pointer">
-              Forum
-            </Link>
-            <Link href="/donate" className="text-gray-700 hover:text-gray-900 cursor-pointer">
-              Donate
-            </Link>
-            <Link href="/download" className="text-gray-700 hover:text-gray-900 cursor-pointer">
-              Download
-            </Link>
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`${
+                  isActiveLink(link.href)
+                    ? "text-black font-semibold border-b-2 border-black"
+                    : "text-gray-700 hover:text-gray-900"
+                } cursor-pointer transition-colors duration-200`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
           <div className="hidden sm:flex flex-1 max-w-2xl mx-4">
             <div className="relative w-full">
@@ -189,18 +222,19 @@ export function Header() {
           </div>
         </div>
         <nav className="p-4 space-y-2">
-          <Link href="/shop" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
-            Shop
-          </Link>
-          <Link href="/forum" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
-            Forum
-          </Link>
-          <Link href="/donate" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
-            Donate
-          </Link>
-          <Link href="/download" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
-            Download
-          </Link>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`block p-2 rounded cursor-pointer ${
+                isActiveLink(link.href)
+                  ? "bg-gray-100 text-black font-semibold"
+                  : "hover:bg-gray-100 text-gray-700"
+              }`}
+            >
+              {link.label}
+            </Link>
+          ))}
           <Link href="/login" className="block p-2 hover:bg-gray-100 rounded cursor-pointer">
             Đăng nhập
           </Link>
