@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'MarketTrend - Mua sắm trực tuyến',
+  title: 'GMarket - Mua sắm trực tuyến',
   description: 'Khám phá sản phẩm đa dạng với giá tốt nhất',
 };
 
@@ -34,10 +34,10 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
-          storageKey="markettrend-theme"
+          storageKey="GMarket-theme"
         >
           {children}
         </ThemeProvider>

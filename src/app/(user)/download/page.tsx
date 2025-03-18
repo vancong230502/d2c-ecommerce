@@ -14,7 +14,7 @@ export default function DownloadPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto space-y-12">
             <div className="text-center space-y-4">
-              <h1 className="text-4xl font-bold">Tải xuống MarketTrend</h1>
+              <h1 className="text-4xl font-bold">Tải xuống GMarket</h1>
               <p className="text-gray-600 text-lg max-w-2xl mx-auto">
                 Trải nghiệm mua sắm tốt nhất trên mọi thiết bị
               </p>

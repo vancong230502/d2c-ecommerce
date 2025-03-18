@@ -80,7 +80,7 @@ export default function PrivacyPage() {
                 Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật của chúng tôi, vui lòng liên hệ:
               </p>
               <ul className="list-disc pl-6">
-                <li>Email: privacy@markettrend.com</li>
+                <li>Email: privacy@GMarket.com</li>
                 <li>Điện thoại: (84) 123-456-789</li>
                 <li>Địa chỉ: 123 Đường ABC, Quận XYZ, TP.HCM</li>
               </ul>

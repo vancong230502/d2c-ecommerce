@@ -74,7 +74,7 @@ export default function ReturnPolicyPage() {
               </p>
               <ul className="list-disc pl-6">
                 <li>Hotline: (84) 123-456-789</li>
-                <li>Email: support@markettrend.com</li>
+                <li>Email: support@GMarket.com</li>
                 <li>Thời gian hỗ trợ: 8:00 - 22:00 các ngày trong tuần</li>
               </ul>
             </section>

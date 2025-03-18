@@ -245,7 +245,7 @@ export default function ShopPage() {
       <Header />
       
       <main className="flex-1 bg-background py-4 sm:py-6">
-        <div className="container max-w-5xl mx-auto px-3 sm:px-4">
+        <div className="container max-w-5xl mx-auto px-6 sm:px-6">
           {/* Selected filters - sticky */}
           {selectedFilters.length > 0 && (
             <div className="sticky top-0 z-40 bg-background py-2 -mx-3 sm:-mx-4 px-3 sm:px-4 mb-4 sm:mb-6 border-b">
@@ -284,7 +284,7 @@ export default function ShopPage() {
             {/* Mobile filter button */}
             <Button
               variant="outline"
-              className="sm:hidden w-full mb-2"
+              className="sm:hidden w-full mb-2 bg-background hover:bg-accent"
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter className="h-4 w-4 mr-2" />
@@ -296,15 +296,15 @@ export default function ShopPage() {
               <div className="flex items-center gap-2">
                 <span className="text-sm text-muted-foreground whitespace-nowrap">Sắp xếp:</span>
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="flex-1">
+                  <SelectTrigger className="flex-1 bg-background cursor-pointer">
                     <SelectValue placeholder="Mặc định" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="default">Mặc định</SelectItem>
-                    <SelectItem value="price-asc">Giá: Thấp đến cao</SelectItem>
-                    <SelectItem value="price-desc">Giá: Cao đến thấp</SelectItem>
-                    <SelectItem value="newest">Mới nhất</SelectItem>
-                    <SelectItem value="popular">Phổ biến nhất</SelectItem>
+                    <SelectItem value="default" className="cursor-pointer">Mặc định</SelectItem>
+                    <SelectItem value="price-asc" className="cursor-pointer">Giá: Thấp đến cao</SelectItem>
+                    <SelectItem value="price-desc" className="cursor-pointer">Giá: Cao đến thấp</SelectItem>
+                    <SelectItem value="newest" className="cursor-pointer">Mới nhất</SelectItem>
+                    <SelectItem value="popular" className="cursor-pointer">Phổ biến nhất</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -320,11 +320,12 @@ export default function ShopPage() {
             >
               {showFilters && (
                 <div className="flex items-center justify-between sm:hidden mb-4 border-b pb-4">
-                  <h2 className="text-lg font-semibold">Bộ lọc</h2>
+                  <h2 className="text-lg font-semibold text-foreground">Bộ lọc</h2>
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => setShowFilters(false)}
+                    className="hover:bg-accent"
                   >
                     <ChevronRight className="h-5 w-5" />
                   </Button>
@@ -332,45 +333,46 @@ export default function ShopPage() {
               )}
 
               {/* Categories */}
-              <div className="space-y-1 sticky top-10">
-                <h3 className="font-semibold mb-3">Danh mục sản phẩm</h3>
-                {categories.map((category) => (
-                  <div key={category.id}>
-                    <button
-                      onClick={() => toggleCategory(category.id)}
-                      className={`w-full flex items-center justify-between px-2 py-2 text-sm rounded-md transition-colors cursor-pointer ${
-                        isCategorySelected(category.id)
-                          ? "bg-gray-200 text-gray-900 font-medium"
-                          : "hover:bg-gray-100 hover:text-gray-900"
-                      }`}
-                    >
-                      <span>{category.name}</span>
-                      <ChevronDown 
-                        className={`h-4 w-4 transition-transform ${
-                          expandedCategories.includes(category.id) ? "transform rotate-180" : ""
-                        }`}
-                      />
-                    </button>
-                    {expandedCategories.includes(category.id) && (
-                      <div className="ml-4 space-y-1 mt-1">
-                        {category.subCategories.map((sub) => (
-                          <button
-                            key={sub.id}
-                            onClick={() => toggleFilter(category.id, sub)}
-                            className={`w-full text-left px-2 py-1.5 text-sm rounded-md transition-colors cursor-pointer ${
-                              selectedFilters.some(filter => filter.id === sub.id)
-                                ? "bg-gray-200 text-gray-900 font-medium"
-                                : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-                            }`}
-                          >
-                            {sub.name}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+              <div className="space-y-4">
+  <h3 className="font-semibold mb-3 text-foreground text-lg">Danh mục sản phẩm</h3>
+  {categories.map((category) => (
+    <div key={category.id}>
+      <button
+        onClick={() => toggleCategory(category.id)}
+        className={`w-full flex items-center justify-between px-2 py-3 text-base rounded-md transition-colors cursor-pointer ${
+          isCategorySelected(category.id)
+            ? "bg-accent text-accent-foreground font-medium"
+            : "hover:bg-accent hover:text-accent-foreground"
+        }`}
+      >
+        <span>{category.name}</span>
+        <ChevronDown 
+          className={`h-5 w-5 transition-transform ${
+            expandedCategories.includes(category.id) ? "transform rotate-180" : ""
+          }`}
+        />
+      </button>
+      {expandedCategories.includes(category.id) && (
+        <div className="ml-4 space-y-1 mt-1">
+          {category.subCategories.map((sub) => (
+            <button
+              key={sub.id}
+              onClick={() => toggleFilter(category.id, sub)}
+              className={`w-full text-left px-2 py-2 text-base rounded-md transition-colors cursor-pointer ${
+                selectedFilters.some(filter => filter.id === sub.id)
+                  ? "bg-accent text-accent-foreground font-medium"
+                  : "text-muted-foreground hover:text-accent-foreground hover:bg-accent"
+              }`}
+            >
+              {sub.name}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  ))}
+</div>
+
             </div>
 
             {/* Products grid */}
@@ -380,15 +382,15 @@ export default function ShopPage() {
                 <div className="flex items-center gap-2 shrink-0">
                   <span className="text-sm text-muted-foreground whitespace-nowrap">Sắp xếp:</span>
                   <Select value={sortBy} onValueChange={setSortBy}>
-                    <SelectTrigger className="min-w-[180px]">
+                    <SelectTrigger className="min-w-[180px] cursor-pointer">
                       <SelectValue placeholder="Mặc định" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="default">Mặc định</SelectItem>
-                      <SelectItem value="price-asc">Giá: Thấp đến cao</SelectItem>
-                      <SelectItem value="price-desc">Giá: Cao đến thấp</SelectItem>
-                      <SelectItem value="newest">Mới nhất</SelectItem>
-                      <SelectItem value="popular">Phổ biến nhất</SelectItem>
+                      <SelectItem value="default" className="cursor-pointer">Mặc định</SelectItem>
+                      <SelectItem value="price-asc" className="cursor-pointer">Giá: Thấp đến cao</SelectItem>
+                      <SelectItem value="price-desc" className="cursor-pointer">Giá: Cao đến thấp</SelectItem>
+                      <SelectItem value="newest" className="cursor-pointer">Mới nhất</SelectItem>
+                      <SelectItem value="popular" className="cursor-pointer">Phổ biến nhất</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -398,10 +400,10 @@ export default function ShopPage() {
                 {products.map((product) => (
                   <div
                     key={product.id}
-                    className="group relative bg-white rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow"
+                    className="group relative bg-background rounded-lg overflow-hidden border shadow-sm hover:shadow-md transition-shadow"
                   >
                     <Link href={`/product/${product.id}`} className="cursor-pointer">
-                      <div className="aspect-square relative bg-gray-200">
+                      <div className="aspect-square relative bg-muted">
                         <Image
                           src={product.image}
                           alt={product.name}
@@ -421,49 +423,51 @@ export default function ShopPage() {
                           )}
                         </div>
                       </div>
-                      <div className="p-3 sm:p-4">
-                        <h3 className="font-medium text-sm sm:text-base mb-1 line-clamp-1 hover:text-primary transition-colors">
+                      
+                      <div className="p-3">
+                        <h3 className="font-medium text-sm sm:text-base mb-1 line-clamp-1 hover:text-primary transition-colors text-foreground">
                           {product.name}
                         </h3>
                         <div className="flex flex-col gap-0.5">
                           <div className="flex items-baseline gap-2">
                             {product.price < product.originalPrice ? (
                               <>
-                                <span className="text-sm sm:text-base font-semibold text-red-600">
+                                <span className="text-sm sm:text-base font-semibold text-red-600 dark:text-red-400">
                                   {formatPrice(product.price)}
                                 </span>
-                                <span className="text-xs sm:text-sm text-gray-500 line-through">
+                                <span className="text-xs sm:text-sm text-muted-foreground line-through">
                                   {formatPrice(product.originalPrice)}
                                 </span>
                               </>
                             ) : (
-                              <span className="text-sm sm:text-base font-semibold text-gray-900">
+                              <span className="text-sm sm:text-base font-semibold text-foreground">
                                 {formatPrice(product.price)}
                               </span>
                             )}
                           </div>
                           {product.price < product.originalPrice && (
-                            <span className="text-xs text-red-600">
+                            <span className="text-xs text-red-600 dark:text-red-400">
                               Tiết kiệm {formatPrice(product.originalPrice - product.price)}
                             </span>
                           )}
                         </div>
                       </div>
                     </Link>
-                    <div className="absolute top-2 right-2 flex flex-col gap-2">
+                    
+                    <div className="absolute bottom-3 right-3 flex gap-2">
                       <Button
                         variant="secondary"
                         size="icon"
-                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer bg-background border-2 border-black dark:border-white/40 hover:bg-accent hover:scale-110 z-10"
                       >
-                        <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <Heart className="w-4 h-4 sm:w-5 sm:h-5" />
                       </Button>
                       <Button
                         variant="secondary"
                         size="icon"
-                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer bg-background border-2 border-black dark:border-white/40 hover:bg-accent hover:scale-110 z-10"
                       >
-                        <ShoppingCart className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
                       </Button>
                     </div>
                   </div>
@@ -472,19 +476,30 @@ export default function ShopPage() {
 
               {/* Pagination */}
               <div className="mt-6 sm:mt-8 flex items-center justify-center gap-1 sm:gap-2">
-                <Button variant="outline" disabled className="h-8 sm:h-9 px-2 sm:px-4 cursor-pointer">
+                <Button 
+                  variant="outline" 
+                  disabled 
+                  className="h-8 sm:h-9 px-2 sm:px-4 cursor-pointer bg-background border border-border hover:bg-accent text-muted-foreground"
+                >
                   Trước
                 </Button>
                 {[1, 2, 3, 4].map((page) => (
                   <Button
                     key={page}
                     variant={page === 1 ? "default" : "outline"}
-                    className="w-8 h-8 sm:w-9 sm:h-9 p-0 cursor-pointer"
+                    className={`w-8 h-8 sm:w-9 sm:h-9 p-0 cursor-pointer ${
+                      page === 1 
+                        ? "bg-primary text-primary-foreground hover:bg-primary/90" 
+                        : "bg-background border border-border hover:bg-accent text-foreground"
+                    }`}
                   >
                     {page}
                   </Button>
                 ))}
-                <Button variant="outline" className="h-8 sm:h-9 px-2 sm:px-4 cursor-pointer">
+                <Button 
+                  variant="outline" 
+                  className="h-8 sm:h-9 px-2 sm:px-4 cursor-pointer bg-background border border-border hover:bg-accent text-foreground"
+                >
                   Sau
                 </Button>
               </div>
