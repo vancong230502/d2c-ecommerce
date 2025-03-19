@@ -14,7 +14,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Download, ExternalLink, Smartphone, Monitor, ChevronDown } from "lucide-react";
+import { Download, ExternalLink, Smartphone, Monitor, ChevronDown, Info } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -99,14 +99,16 @@ export default function GamePage() {
                         {game.developer}
                       </p>
                     </div>
-                    <div className="flex gap-2 sm:flex-shrink-0">
-                      <Link href={`/game/${game.id}`}>
+                    <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                      <Link 
+                        href={`/game/${game.id}`} 
+                        className="w-full sm:w-[160px]"
+                      >
                         <Button 
-                          variant="outline"
-                          size="sm"
-                          className="flex-1 sm:flex-initial min-w-[120px] h-10 cursor-pointer hover:scale-105 transition-transform"
+                          variant="outline" 
+                          className="w-full h-11 cursor-pointer hover:scale-105 transition-transform"
                         >
-                          <ExternalLink className="w-4 h-4 mr-2" />
+                          <Info className="w-5 h-5 mr-2" />
                           Chi tiết
                         </Button>
                       </Link>
@@ -114,16 +116,14 @@ export default function GamePage() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button 
-                            variant="default"
-                            size="sm"
-                            className="flex-1 sm:flex-initial min-w-[120px] h-10 cursor-pointer hover:scale-105 transition-transform"
+                            className="w-full h-11 cursor-pointer hover:scale-105 transition-transform sm:w-[160px]"
                           >
-                            <Download className="w-4 h-4 mr-2" />
+                            <Download className="w-5 h-5 mr-2" />
                             Tải xuống
                             <ChevronDown className="w-4 h-4 ml-2" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end" className="w-[160px]">
+                        <DropdownMenuContent align="end" className="w-[200px]">
                           <DropdownMenuItem className="cursor-pointer hover:bg-accent">
                             <Smartphone className="w-4 h-4 mr-2" />
                             <span>Android</span>

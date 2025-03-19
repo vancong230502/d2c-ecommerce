@@ -4,9 +4,9 @@ import { ArrowRight } from 'lucide-react';
 
 export function GameSection() {
   return (
-    <section className="py-12 md:py-16 bg-accent/10">
-      <div className="container max-w-5xl mx-auto px-4">
-        <div className="relative bg-gradient-to-br from-background to-accent/20 rounded-2xl p-8 md:p-10 border border-gray-200 shadow-lg overflow-hidden">
+    <section className="pb-8 sm:pb-12 bg-accent/10">
+      <div className="container max-w-5xl mx-auto px-4 py-4">
+        <div className="relative bg-gradient-to-br from-background to-accent/20 rounded-2xl p-6 sm:p-8 md:p-10 border border-gray-200 shadow-lg overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-50" />
           <div className="relative flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
             {/* Hình ảnh game */}
@@ -46,7 +46,7 @@ export function GameSection() {
               </div>
               <Link
                 href="/games/the-adventure-of-mos"
-                className="inline-flex items-center px-4 md:px-6 py-2.5 md:py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors duration-200 text-sm md:text-base font-medium shadow-sm hover:shadow will-change-transform hover:-translate-y-0.5 group"
+                className="inline-flex items-center px-4 md:px-6 py-2 md:py-2.5 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors duration-200 text-sm md:text-base font-medium shadow-sm hover:shadow will-change-transform hover:-translate-y-0.5 group"
               >
                 Tìm hiểu thêm
                 <ArrowRight className="w-4 h-4 md:w-5 md:h-5 ml-2 transition-colors duration-200" />

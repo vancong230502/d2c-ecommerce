@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter } from "lucide-react";
 export function Footer() {
   return (
     <footer className="border-t border-border bg-card">
-      <div className="container max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <div className="container max-w-5xl mx-auto px-4 py-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="font-semibold mb-4">Về chúng tôi</h3>

@@ -124,3 +124,36 @@
     @apply bg-background text-foreground;
   }
 }
+@layer utilities {
+  /* Tùy chỉnh scrollbar */
+  ::-webkit-scrollbar {
+    width: 32px;
+    height: 24px;
+  }
+
+  /* Light mode */
+  @media (prefers-color-scheme: light) {
+    ::-webkit-scrollbar-track {
+      background: white;
+    }
+  }
+
+  /* Dark mode */
+  .dark ::-webkit-scrollbar-track {
+    background: black;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 8px;
+    min-height: 40px;
+  }
+
+  /* Tùy chỉnh cho Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #9ca3af transparent;
+  }
+
+}
+

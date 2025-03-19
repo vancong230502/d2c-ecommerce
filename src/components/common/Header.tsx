@@ -311,7 +311,7 @@ export function Header() {
         <Link href="#">
           <Button
             variant="outline"
-            className="w-full justify-center h-11 text-base font-medium"
+            className="w-full justify-center h-10 text-base font-medium cursor-pointer"
             onClick={handleLogin}
           >
             <LogIn className="w-4 h-4 mr-2" />
@@ -321,7 +321,7 @@ export function Header() {
         <Link href="/register">
           <Button
             variant="default"
-            className="w-full justify-center h-11 text-base font-medium"
+            className="w-full justify-center h-10 text-base font-medium cursor-pointer"
           >
             <UserPlus className="w-4 h-4 mr-2" />
             Đăng ký
@@ -334,7 +334,7 @@ export function Header() {
   if (!isMounted) {
     return (
       <header className="sticky top-0 z-50 w-full border-b bg-background">
-        <div className="container max-w-5xl mx-auto px-4 sm:px-6">
+        <div className="container max-w-5xl mx-auto">
           <div className="flex items-center justify-between gap-4">
             <Link
               href="/"
@@ -375,7 +375,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:bg-background/95 dark:backdrop-blur dark:supports-[backdrop-filter]:dark:bg-background/60">
-      <div className="container max-w-5xl mx-auto px-4 sm:px-6 py-4">
+      <div className="container max-w-5xl mx-auto px-4 py-4">
         {/* Main Header */}
         <div className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -383,7 +383,7 @@ export function Header() {
               href="/"
               className="flex items-center gap-3 text-2xl font-bold cursor-pointer group"
             >
-              <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary">
+              <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary">
                 <Image
                   src="/avatar/girl.png"
                   alt="GMarket Logo"

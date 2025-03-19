@@ -535,7 +535,7 @@ export default function ForumPage() {
       <Toaster />
 
       {/* Categories bar - Mobile only */}
-      <div className="md:hidden sticky top-[64px] z-40 bg-background border-b shadow-sm">
+      <div className="md:hidden sticky top-[75px] z-40 bg-background border-b shadow-sm">
         <div className="flex items-center justify-between px-4 h-12">
           <Button
             variant={activeTab === "system" ? "secondary" : "ghost"}
