@@ -383,7 +383,7 @@ export function Header() {
               href="/"
               className="flex items-center gap-3 text-2xl font-bold cursor-pointer group"
             >
-              <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary">
+              <div className="relative w-7 h-7 rounded-full overflow-hidden ring-2 ring-primary">
                 <Image
                   src="/avatar/girl.png"
                   alt="Veslg Logo"
