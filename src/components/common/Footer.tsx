@@ -92,7 +92,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-          <p>© 2024 GMarket. All rights reserved.</p>
+          <p>© 2024 Veslg. All rights reserved.</p>
         </div>
       </div>
     </footer>

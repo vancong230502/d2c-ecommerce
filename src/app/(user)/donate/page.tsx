@@ -14,7 +14,7 @@ export default function DonatePage() {
         <div className="container max-w-5xl mx-auto px-4">
           <div className="max-w-5xl mx-auto space-y-12 px-2">
             <div className="text-center space-y-4">
-              <h1 className="text-3xl font-bold text-foreground">Ủng hộ GMarket</h1>
+              <h1 className="text-3xl font-bold text-foreground">Ủng hộ Veslg</h1>
               <p className="text-sm text-muted-foreground max-w-2xl mx-auto">
                 Sự ủng hộ của bạn giúp chúng tôi duy trì và phát triển nền tảng tốt hơn
               </p>
@@ -63,7 +63,7 @@ export default function DonatePage() {
                   <div className="space-y-2 text-sm">
                     <p className="text-muted-foreground">Ngân hàng: VietComBank</p>
                     <p className="text-muted-foreground">STK: 1234567890</p>
-                    <p className="text-muted-foreground">Chủ TK: GMarket JSC</p>
+                    <p className="text-muted-foreground">Chủ TK: Veslg JSC</p>
                   </div>
                   <Button variant="default" className="w-full py-4 text-sm cursor-pointer">
                     <Heart className="w-4 h-4 mr-2" />

@@ -95,7 +95,7 @@ const posts: Post[] = [
       avatar: "/avatars/admin.jpg",
     },
     content:
-      "🎉 Chào mừng bạn đến với diễn đàn của chúng tôi! \n\nHãy tham gia thảo luận và chia sẻ kinh nghiệm của bạn với cộng đồng GMarket nhé!",
+      "🎉 Chào mừng bạn đến với diễn đàn của chúng tôi! \n\nHãy tham gia thảo luận và chia sẻ kinh nghiệm của bạn với cộng đồng Veslg nhé!",
     likes: 324,
     time: "2 giờ trước",
     comments: [],
@@ -157,7 +157,7 @@ const posts: Post[] = [
       avatar: "/avatars/user3.jpg",
     },
     content:
-      "Mọi người cho mình hỏi về cách sử dụng công cụ phân tích kỹ thuật trên GMarket với ạ?",
+      "Mọi người cho mình hỏi về cách sử dụng công cụ phân tích kỹ thuật trên Veslg với ạ?",
     likes: 45,
     time: "4 giờ trước",
     comments: [
@@ -1289,7 +1289,7 @@ export default function ForumPage() {
                                 Quảng cáo
                               </p>
                               <h4 className="text-lg font-semibold hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer transition-colors text-foreground">
-                                Khám phá thêm về GMarket
+                                Khám phá thêm về Veslg
                               </h4>
                               <p className="text-base text-muted-foreground">
                                 Tham gia ngay để nhận nhiều ưu đãi hấp dẫn

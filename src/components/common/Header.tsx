@@ -340,7 +340,7 @@ export function Header() {
               href="/"
               className="text-2xl font-bold hover:text-primary cursor-pointer"
             >
-              GMarket
+              Veslg
             </Link>
             <div className="flex items-center gap-4 ml-auto">
               <button className="relative p-2 hover:bg-accent rounded-full cursor-pointer">
@@ -386,7 +386,7 @@ export function Header() {
               <div className="relative w-9 h-9 rounded-full overflow-hidden ring-2 ring-primary">
                 <Image
                   src="/avatar/girl.png"
-                  alt="GMarket Logo"
+                  alt="Veslg Logo"
                   width={40}
                   height={40}
                   className="object-cover"
@@ -400,7 +400,7 @@ export function Header() {
                   isHome ? "border-b-2 border-primary" : ""
                 }`}
               >
-                GMarket
+                Veslg
               </span>
             </Link>
           </div>

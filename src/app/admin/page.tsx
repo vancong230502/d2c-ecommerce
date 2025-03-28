@@ -1,11 +1,10 @@
-// app/page.tsx
 import { Header } from '@/components/common/Header';
 import { Footer } from '@/components/common/Footer';
 import { CarouselSection } from '@/components/home/CarouselSection';
 import { FeaturesSection } from '@/components/home/FeaturesSection';
 import { GameSection } from '@/components/home/GameSection';
 
-export default function Home() {
+export default function AdminDashboard() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -13,7 +12,7 @@ export default function Home() {
         <FeaturesSection />
         <GameSection />
       </main>
-      <Footer /> 
+      <Footer />
     </div>
   );
 }

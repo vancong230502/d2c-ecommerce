@@ -10,7 +10,7 @@ const inter = Inter({
   display: "swap",
 });
 export const metadata: Metadata = {
-  title: 'GMarket - Mua sắm trực tuyến',
+  title: 'Veslg - Mua sắm trực tuyến',
   description: 'Khám phá sản phẩm đa dạng với giá tốt nhất',
 };
 
@@ -31,7 +31,7 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
-          storageKey="GMarket-theme"
+          storageKey="Veslg-theme"
         >
           {children}
         </ThemeProvider>

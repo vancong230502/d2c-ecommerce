@@ -83,7 +83,7 @@ export default function RegisterPage() {
         </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
-        <Button className="w-full cursor-pointer transition-colors">Đăng ký</Button>
+        <Button className="w-full cursor-pointer transition-colors cursor-pointer">Đăng ký</Button>
         <div className="text-center text-sm text-muted-foreground">
           Đã có tài khoản?{" "}
           <Link 
