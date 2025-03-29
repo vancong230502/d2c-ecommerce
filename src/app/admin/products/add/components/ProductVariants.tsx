@@ -37,7 +37,7 @@ export function ProductVariants({
     setFormData(prev => ({
       ...prev,
       variantOptions: [...prev.variantOptions, { 
-        id: crypto.randomUUID(),
+        id: Date.now().toString(36) + Math.random().toString(36).substr(2),
         name: "",
         values: [""] 
       }],
@@ -407,4 +407,4 @@ export function ProductVariants({
       </CardContent>
     </Card>
   );
-} 
+}
